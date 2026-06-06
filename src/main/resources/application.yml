@@ -1,0 +1,68 @@
+  spring:
+    jwt:
+      secret: "iHtgBkvWNrh1G7k7dJWCurBxl8QU26kx"
+      access-token-expiration: 300000    # 5 minutes in milliseconds
+      refresh-token-expiration: 2592000000 # 30 days in milliseconds
+      email-verification-expiration: 1800000 # 30 minutes
+
+
+    application:
+      name: core
+
+    mvc:
+      servlet:
+        path: /api
+      throw-exception-if-no-handler-found: true
+
+    web:
+      resources:
+        add-mappings: false
+
+    datasource:
+      url: jdbc:postgresql://localhost:5432/splitEasy
+      username: postgres       # or your DB user
+      password: india4597
+      driver-class-name: org.postgresql.Driver
+
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      auto-commit: true
+      pool-name: HikariPool-1
+      transaction-isolation: TRANSACTION_READ_COMMITTED
+      idle-timeout: 30000       # 30s
+      connection-timeout: 20000 # 20s
+      max-lifetime: 1800000     # 30 min
+
+    sql:
+      init:
+        mode: always
+    jpa:
+      hibernate:
+        ddl-auto: update
+      defer-datasource-initialization: true
+      show-sql: true
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+          format_sql: true
+
+    data:
+      redis:
+        host: localhost
+        port: 6379
+
+    avatar:
+      base-url: https://ui-avatars.com/api/
+
+    cache:
+      type: redis
+      default-ttl: 300000        # 5 minutes in ms
+      currency-ttl: 86400000     # 24 hours in ms
+
+  google:
+    oauth:
+      client-id: 79365214496-c026mqlrgipsho5cek4sbkve2i3e93no.apps.googleusercontent.com
+
+  kind: Application
+
