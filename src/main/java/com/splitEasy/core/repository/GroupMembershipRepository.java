@@ -1,12 +1,14 @@
 package com.splitEasy.core.repository;
 
 import com.splitEasy.core.entity.group.Group;
+import com.splitEasy.core.entity.group.GroupInviteLink;
 import com.splitEasy.core.entity.group.GroupMembership;
 import com.splitEasy.core.enums.GroupType;
 import com.splitEasy.core.enums.MembershipStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -18,6 +20,8 @@ public interface GroupMembershipRepository extends JpaRepository<GroupMembership
 
     Optional<GroupMembership> findByGroupIdAndUserIdAndStatus(
             String groupId, Long userId, MembershipStatus status);
+
+    Optional<GroupMembership> findByGroupIdAndUserId(String groupId, Long userId);
 
     @Query("""
             SELECT m.user.publicId FROM GroupMembership m
@@ -50,6 +54,8 @@ public interface GroupMembershipRepository extends JpaRepository<GroupMembership
                                             @Param("type") GroupType type,
                                             Pageable pageable);
 
+
+
     /** Members of a group in the given status, user eagerly fetched (avoids N+1 on member details). */
     @Query("""
             SELECT m FROM GroupMembership m
@@ -58,4 +64,5 @@ public interface GroupMembershipRepository extends JpaRepository<GroupMembership
             """)
     List<GroupMembership> findMembersByGroupIdAndStatus(@Param("groupId") String groupId,
                                                         @Param("status") MembershipStatus status);
+
 }
