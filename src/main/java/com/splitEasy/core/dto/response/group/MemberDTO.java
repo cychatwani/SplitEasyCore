@@ -18,7 +18,11 @@ public class MemberDTO {
     private String profilePicture;
     private GroupRole role;
     private Instant activeSince;
+<<<<<<< HEAD
     @Getter(onMethod_ = @JsonProperty("isCurrentUser"))
+=======
+    @Getter(onMethod_ = @JsonProperty("isCurrentUser")
+>>>>>>> 3e0e5bb (feat(group-detail): isCurrentUser flag, admin-first member sort, shareable invite URLs)
     private boolean isCurrentUser;
 
     /**
