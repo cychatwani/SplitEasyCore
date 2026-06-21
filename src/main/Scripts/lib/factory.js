@@ -25,7 +25,7 @@ async function makeUser() {
     email,
     password,
     token: session.accessToken,
-    publicId: session.userDetails.id,
+    userId: session.userDetails.userId,
   };
 }
 
@@ -40,7 +40,9 @@ async function makeGroup(token, overrides = {}) {
   if (res.status !== 201) {
     throw new Error(`createGroup failed: ${res.status} ${JSON.stringify(res.body)}`);
   }
-  return res.body.data;
+  // API now exposes groupId (semantic name); aliasing as .id keeps tests terse.
+  const data = res.body.data;
+  return { ...data, id: data.groupId };
 }
 
 async function makeInvite(token, groupId, opts = {}) {

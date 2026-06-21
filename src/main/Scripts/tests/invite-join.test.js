@@ -18,8 +18,8 @@ describe('POST /invites/join', () => {
 
     assert.equal(res.status, 200);
     assert.equal(res.body.errorCode, null);
-    const memberIds = res.body.data.members.map((m) => m.publicId);
-    assert.ok(memberIds.includes(joiner.publicId), 'joiner should appear in members');
+    const memberIds = res.body.data.members.map((m) => m.userId);
+    assert.ok(memberIds.includes(joiner.userId), 'joiner should appear in members');
     assert.equal(res.body.data.memberCount, 2);
   });
 
@@ -59,7 +59,7 @@ describe('POST /invites/join', () => {
     const outsider = await makeUser();
     const invite = await makeInvite(admin.token, group.id, {
       maxUses: 5,
-      invitedUsers: [invited.publicId],
+      invitedUsers: [invited.userId],
     });
 
     const blocked = await join(outsider.token, invite.token);
@@ -96,8 +96,8 @@ describe('POST /invites/join', () => {
 
     const rejoined = await join(member.token, invite.token);
     assert.equal(rejoined.status, 200);
-    const memberIds = rejoined.body.data.members.map((m) => m.publicId);
-    assert.ok(memberIds.includes(member.publicId), 'rejoined member should be back in members');
+    const memberIds = rejoined.body.data.members.map((m) => m.userId);
+    assert.ok(memberIds.includes(member.userId), 'rejoined member should be back in members');
     assert.equal(rejoined.body.data.memberCount, 2);
   });
 });

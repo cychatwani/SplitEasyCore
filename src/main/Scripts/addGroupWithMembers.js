@@ -70,7 +70,7 @@ async function main() {
   if (groupRes.status !== 201) {
     throw new Error(`create group failed: ${groupRes.status} ${JSON.stringify(groupRes.body)}`);
   }
-  const groupId = groupRes.body.data.id;
+  const groupId = groupRes.body.data.groupId;
 
   // 2. Mint a PRIMARY invite for a usable join token (create response doesn't expose one).
   const inviteRes = await api.post(`/groups/${groupId}/invites`, { type: 'PRIMARY' }, adminToken);
