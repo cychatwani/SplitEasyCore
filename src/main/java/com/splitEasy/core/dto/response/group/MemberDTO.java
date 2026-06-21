@@ -18,7 +18,7 @@ public class MemberDTO {
     private String profilePicture;
     private GroupRole role;
     private Instant activeSince;
-    @Getter(onMethod_ = @JsonProperty("isCurrentUser")
+    @Getter(onMethod_ = @JsonProperty("isCurrentUser"))
     private boolean isCurrentUser;
 
     /**
