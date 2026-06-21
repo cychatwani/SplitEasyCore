@@ -1,6 +1,6 @@
 package com.splitEasy.core.entity;
 
-import com.splitEasy.core.entity.base.SoftDeletableEntity;
+import com.splitEasy.core.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -16,7 +16,7 @@ import org.hibernate.annotations.SQLRestriction;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class NotificationTemplate extends SoftDeletableEntity {
+public class NotificationTemplate extends BaseEntity {
 
     @Column(nullable = false, unique = true, length = 50)
     private String type; // e.g. "EMAIL_VERIFICATION", "PASSWORD_RESET"

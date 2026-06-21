@@ -130,7 +130,7 @@ public class ExpenseService {
             if (delta == 0) {
                 return;
             }
-            balanceRepository.applyDelta(UuidCreator.getTimeOrderedEpoch(), groupId, userId, currencyCode, delta);
+            balanceRepository.applyDelta(UuidCreator.getTimeOrderedEpoch(), groupId, userId, expense.getCurrency().getId(), delta);
 
             BalanceLedgerEntry entry = hmacSigner.signedEntry(
                     expense.getGroup(),

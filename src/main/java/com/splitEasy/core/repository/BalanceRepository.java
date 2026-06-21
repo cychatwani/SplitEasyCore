@@ -16,11 +16,15 @@ public interface BalanceRepository extends JpaRepository<Balance, UUID> {
      * on first touch. Postgres UPSERT - race-safe under concurrent expense creation,
      * since the read-modify-write happens inside a single statement on the DB.
      * Bypasses JPA lifecycle by design; created_at/updated_at use DB time here.
+     *
+     * NOTE: currency_code on this table is the Currency PK (UUID), NOT the ISO code
+     * — Currency moved to a UUID PK in the base-entity migration. The column kept its
+     * historical name; only the type changed.
      */
     @Modifying
     @Query(value = """
             INSERT INTO balances (id, group_id, user_id, currency_code, net_amount_minor, created_at, updated_at)
-            VALUES (:id, :groupId, :userId, :currencyCode, :delta, now(), now())
+            VALUES (:id, :groupId, :userId, :currencyId, :delta, now(), now())
             ON CONFLICT (group_id, user_id, currency_code)
             DO UPDATE SET net_amount_minor = balances.net_amount_minor + EXCLUDED.net_amount_minor,
                           updated_at = now()
@@ -28,8 +32,8 @@ public interface BalanceRepository extends JpaRepository<Balance, UUID> {
     void applyDelta(@Param("id") UUID id,
                     @Param("groupId") UUID groupId,
                     @Param("userId") UUID userId,
-                    @Param("currencyCode") String currencyCode,
+                    @Param("currencyId") UUID currencyId,
                     @Param("delta") long delta);
 
-    Optional<Balance> findByGroupIdAndUserIdAndCurrencyCode(UUID groupId, UUID userId, String currencyCode);
+    Optional<Balance> findByGroupIdAndUserIdAndCurrencyId(UUID groupId, UUID userId, UUID currencyId);
 }
